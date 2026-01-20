@@ -1,65 +1,75 @@
-import Image from "next/image";
+import './home.css'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div>
+      <div className="__className_5f0add antialiased text-[#1A1B1C]">
+       <div className="max-sm:scale-[0.75] max-sm:origin-center max-sm:p-6">
+        <div className='flex flex-col items-center justify-center h-[71dvh] md:fixed md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2'>
+       <div className="absolute inset-0 flex items-center justify-center lg:hidden">
+        <div className="w-[350px] h-[350px] border border-dotted border-[#A0A4AB] rotate-45 absolute top-1/2 left-1/2 -translate-x-[52%] -translate-y-1/2"></div>
+       </div>
+       <div className="absolute inset-0 flex items-center justify-center lg:hidden">
+        <div className="w-[420px] h-[420px] border border-dotted border-[#A0A4AB] rotate-45 absolute top-1/2 left-1/2 -translate-x-[52%] -translate-y-1/2"></div>
+       </div>
+       <div id='main-heading' className="relative z-10 text-center">
+        <h1 className="text-[60px] text-[#1A1B1C] lg:text-[100px] font-inter font-normal tracking-tighter leading-none opacity-0 " style={{opacity: '1'}}>
+          Sophisticated
+          <br></br>
+          <span className="block text-[#1A1B1C]">skincare</span>
+        </h1>
+       </div>
+       <p className='z-10 block lg:hidden w-[30ch] mt-4 text-[16px] font-semibold text-center text-muted-foreground text-[#1a1b1c83]'>
+        Skinstric developed an A.I. that creates a highly-personalized routine tailored to what your skin needs.
+       </p>
+       <div className='z-10 mt-4 lg:hidden'>
+       <a href='/testing'>
+       <button className='relative flex items-center gap-4 hover:scale-105 duration-300'>
+        <span className='text-[12px] font-bold cursor-pointer'>ENTER EXPERIENCE</span>
+        <div className='w-[24px] h-[24px] border border-solid border-black rotate-45 cursor-pointer'></div>
+        <span className='absolute left-[129px] scale-[0.5] hover:scale-60 duration-300'>
+          <svg viewBox="0 0 24 24" width="48" height="24" className="fill-current text-black  "><path d="M8 5v14l11-7z"></path></svg>
+        </span>
+        </button>
+        </a>
+       </div>
+      
+       <div className='hidden lg:block fixed bottom-[calc(-7vh)] left-[calc(-20vw)] xl:left-[calc(-27vw)] 2xl:left-[calc(-31vw)] [@media(width>=1920px)]:left-[calc(-33vw)] font-normal text-sm text-[#1A1B1C] space-y-3 uppercase'>
+        <p> Skinstric developed an A.I that creates a
+        <br></br>
+        highly-personalized routine tailored to
+        <br></br>
+        what your skin needs
+        </p>
+       </div>
+       <div id='left-section' className='hidden lg:block fixed left-[calc(-52vw)] xl:left-[calc(-50vw)] top-1/2 -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
+       <div className='relative w-full h-full'>
+        <div className='w-full h-full border border-dotted border-[#A0A4AB] rotate-45 fixed inset-0'></div>
+        <button id='discover-button' className='group inline-flex items-center justify-center gap-4 whitespace-nowrap rounded-md text-sm font-normal text-[#1A1B1C] transition-colors focus-visible:ring-1 focus-visibe:ring-ring cursor-pointer disabled:opacity-50 h-9 absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/5 xl:translate-x-1/6 [@media(width>=1920px)]:translate-x-1/20 px-3 py-1'>
+        <div className='w-[30px] h-[30px] border border-solid border-black rotate-45 cursor-pointer group-hover:scale-110 duration-300'></div>
+        <span className='absolute left-[18px] top-[8px] scale-[0.9] rotate-180 group-hover:scale-105 duration-300'><svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-6"><path d="M7 6.007c0-1.222 1.333-1.977 2.383-1.353l10.5 6.233a1.562 1.562 0 0 1 0 2.706l-10.5 6.233C8.333 20.45 7 19.696 7 18.473V6.007Z" /></svg>
+</span>
+        <span>DISCOVER A.I.</span>
+        </button>
+       </div>
+       </div>
+       <div id='right-section' className='hidden lg:block fixed top-1/2 right-[calc(-53vw)] xl:right-[calc(-50vw)] -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
+       <div className='relative w-full h-full'>
+        <div className='w-full h-full border border-dotted border-[#A0A4AB] rotate-45 absolute inset-0'></div>
+        <a href='/testing'>
+        <button id='take-test-button' className='group inline-flex items-center justify-center gap-4 whitespace-nowrap rounded-md text-sm font-normal text-[#1A1B1C] transition-colors focus-visibility:outline-none focus-visible:ring-1 focus-visibile:ring-ring cursor-pointer disabled:opacity-50 h-9 absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/5 xl:-translate-x-1/6 [@media(width>=1920px)]:-translate-x-1/20 px-3 py-1'>
+        TAKE TEST
+        <div className='w-[30px] h-[30px] border border-solid border-black rotate-45 group-hover:scale-110 duration-300'></div>
+        <span className='absolute left-[107px] top-[9px] scale-[0.9] cursor-pointer group-hover:scale-105 duration-300'>
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M7 6.007c0-1.222 1.333-1.977 2.383-1.353l10.5 6.233a1.562 1.562 0 0 1 0 2.706l-10.5 6.233C8.333 20.45 7 19.696 7 18.473V6.007Z" /></svg>
+        </span>
+        </button>
+        </a>
+       </div>
+       </div>
+      </div>
+         </div>   
+    </div>
     </div>
   );
 }
