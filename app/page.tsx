@@ -22,7 +22,7 @@ export default function Home() {
       animate={{ opacity: 1, y: 0,
  x: hoveredButton === 'left' ? 400 : hoveredButton === 'right' ? -400 : 0 
        }}   
-      transition={{ duration: 1.5, ease:  [0.22, 1, 0.36, 1] }} 
+      transition={{ duration: 2, ease:  [0.22, 1, 0.36, 1] }} 
       className="text-[60px] text-[#1A1B1C] lg:text-[100px] font-inter font-normal tracking-tighter leading-none"
     >
       Sophisticated
