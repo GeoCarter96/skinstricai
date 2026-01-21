@@ -16,12 +16,23 @@ export default function Result() {
                 <div className='absolute inset-0 flex flex-col items-center justify-center'>
                     <img alt='camera icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1' className='absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer'  src='/camera.png' style={{color: 'transparent'}}/>
                     <div className='absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]'>
-                        <p className='text-xs md:text-sm font-normal mt-1 leading-[24px]'>
+                        <p className='text-xs md:text-sm font-normal mt--1  leading-[24px]'>
                             ALLOW A.I.
                             <br></br>
                             TO SCAN YOUR FACE 
                         </p>
-                        <img alt='scan line' loading='lazy' width='66' height='59' decoding='async' data-nimg='1' className='absolute hidden md:block md:right-[143px] md:top-[20px]' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate.png'style={{color: 'transparent'}}/>
+                        <img alt='scan line' loading='lazy' width='66' height='59' decoding='async' data-nimg='1' className='absolute hidden md:block md:right-[141px] md:top-[20px]'  src='/scanline2.png'style={{color: 'transparent'}}/>
+                    </div>
+                </div>
+                <div className='absolute md:top-[43%] md:left-[360px] w-[352px] z-50'>
+                    <div className='bg-[#1A1B1C] pt-4 pb-2'>
+                        <h2 className='text-[#FCFCFC] text-base font-semibold mb-12 leading-[24px] pl-4'>
+                            ALLOW A.I. TO ACCESS YOUR CAMERA 
+                        </h2>
+                        <div className='flex mt-4 border-t border-[#FCFCFC] pt-2'>
+                            <button className='px-7 md:translate-x-45 text-[#fcfcfca1] font-normal text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-500'>DENY</button>
+                            <button className='px-5 md:translate-x-45 text-[#FCFCFC] font-semibold text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-300'>ALLOW</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,8 +43,52 @@ export default function Result() {
                   <img alt='diamond small' loading='lazy' width='408' height='408' decoding='async' data-nimg='1' className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest ' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                 <div className='absolute inset-0 flex flex-col items-center justify-center'>
                     <img alt='photo upload icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1' className='absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer' src='/photoupload.png'/>
+                    <div className='absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px]'>
+                        <p className='text-xs  md:text-sm  font-normal mt-1 leading-[24px] text-right'>
+                            ALLOW A.I.
+                            <br></br>
+                            ACCESS GALLERY
+                        </p>
+                        <img alt='scan line' loading='lazy' width='66.33' height='59.37' decoding='async' data-nimg='1' className='absolute pb-4 hidden md:block md:left-[120px] md:bottom-[39px]' src='/scanline1.png' style={{color: 'transparent'}}/>
+                    </div>
                 </div>
                 
+            </div>
+            <div className='absolute top-[-75px] right-7 md:top-[-50px] md:right-8 transition-opactiy duration-300 opacity-100'>
+                <h1 className='text-xs md:text-sm font-normal mb-1'>Preview</h1>
+                <div className='w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden'></div>
+            </div>
+            <input accept='image/*' className='hidden' type='file'></input>
+        </div>
+        <div className='pt-4 md:pt-0 pb-8 bg-white sticky md:static bottom-30.5 mb-0 md:mb-0'>
+            <div className='absolute bottom-8 w-full flex justify-between md:px-9 px-13'>
+                <a className='relative' aria-label='Back' href='/testing'>
+                <div>
+                    <div className='relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
+                        <span className='rotate-[-45deg] text-xs font-semibold sm:hidden'>BACK</span>
+                    </div>
+                    <div className='group hidden sm:flex flex-row relative justify-center items-center'>
+                        <div className='w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300'><svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-11 rotate-130"><path d="M7 6.007c0-1.222 1.333-1.977 2.383-1.353l10.5 6.233a1.562 1.562 0 0 1 0 2.706l-10.5 6.233C8.333 20.45 7 19.696 7 18.473V6.007Z" /></svg>
+                        </div>
+                        <span className='text-sm font-semibold hidden sm:block ml-6'>BACK</span>
+                    </div>
+                </div>
+                </a>
+                <a href='/select'>
+                <div className='hidden'>
+                    <div>
+                        <div className='w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
+                            <span className='rotate-[-45deg] text-xs font-semibold sm:hidden'>PROCEED</span>
+                        </div>
+                        <div className='group hidden sm:flex flex-row relative justify-center items-center'>
+                            <span className='text-sm font-semibold hidden sm:block mr-5'>PROCEED</span>
+                            <div className='w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300'></div>
+                            <span className='absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300'><svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M7 6.007c0-1.222 1.333-1.977 2.383-1.353l10.5 6.233a1.562 1.562 0 0 1 0 2.706l-10.5 6.233C8.333 20.45 7 19.696 7 18.473V6.007Z" /></svg>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+                </a>
             </div>
         </div>
       </div>
