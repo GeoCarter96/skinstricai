@@ -1,6 +1,10 @@
+'use client'
 import './home.css'
+import { motion } from "framer-motion";
+import { useState } from 'react';
 
 export default function Home() {
+    const [hoveredButton, setHoveredButton] = useState<'left' | 'right' | null>(null);
   return (
     <div>
       <div className="__className_5f0add antialiased text-[#1A1B1C]">
@@ -13,17 +17,26 @@ export default function Home() {
         <div className="w-[420px] h-[420px] border border-dotted border-[#A0A4AB] rotate-45 absolute top-1/2 left-1/2 -translate-x-[52%] -translate-y-1/2"></div>
        </div>
        <div id='main-heading' className="relative z-10 text-center">
-        <h1 className="text-[60px] text-[#1A1B1C] lg:text-[100px] font-inter font-normal tracking-tighter leading-none opacity-0 " style={{opacity: '1'}}>
-          Sophisticated
-          <br></br>
-          <span className="block text-[#1A1B1C]">skincare</span>
-        </h1>
+       <motion.h1 
+      initial={{ opacity: 0, y: 10 }} 
+      animate={{ opacity: 1, y: 0,
+ x: hoveredButton === 'left' ? 400 : hoveredButton === 'right' ? -400 : 0 
+       }}   
+      transition={{ duration: 1.5, ease:  [0.22, 1, 0.36, 1] }} 
+      className="text-[60px] text-[#1A1B1C] lg:text-[100px] font-inter font-normal tracking-tighter leading-none"
+    >
+      Sophisticated
+      <br />
+      <span className="block text-[#1A1B1C]">skincare</span>
+    </motion.h1>
        </div>
        <p className='z-10 block lg:hidden w-[30ch] mt-4 text-[16px] font-semibold text-center text-muted-foreground text-[#1a1b1c83]'>
         Skinstric developed an A.I. that creates a highly-personalized routine tailored to what your skin needs.
        </p>
        <div className='z-10 mt-4 lg:hidden'>
-       <a href='/testing'>
+       <a href='/testing'
+       >
+        
        <button className='relative flex items-center gap-4 hover:scale-105 duration-300'>
         <span className='text-[12px] font-bold cursor-pointer'>ENTER EXPERIENCE</span>
         <div className='w-[24px] h-[24px] border border-solid border-black rotate-45 cursor-pointer'></div>
@@ -31,6 +44,7 @@ export default function Home() {
           <svg viewBox="0 0 24 24" width="48" height="24" className="fill-current text-black  "><path d="M8 5v14l11-7z"></path></svg>
         </span>
         </button>
+          
         </a>
        </div>
       
@@ -42,19 +56,31 @@ export default function Home() {
         what your skin needs
         </p>
        </div>
-       <div id='left-section' className='hidden lg:block fixed left-[calc(-52vw)] xl:left-[calc(-50vw)] top-1/2 -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
+       <div  onMouseEnter={() => setHoveredButton('left')}
+        onMouseLeave={() => setHoveredButton(null)} id='left-section' className='hidden lg:block fixed left-[calc(-52vw)] xl:left-[calc(-50vw)] top-1/2 -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
+            <motion.div 
+          animate={{ opacity: hoveredButton === 'right' ? 0 : 1 }} // Disappear if heading moves here
+          className='relative w-full h-full'
+        >
        <div className='relative w-full h-full'>
         <div className='w-full h-full border border-dotted border-[#A0A4AB] rotate-45 fixed inset-0'></div>
+     
         <button id='discover-button' className='group inline-flex items-center justify-center gap-4 whitespace-nowrap rounded-md text-sm font-normal text-[#1A1B1C] transition-colors focus-visible:ring-1 focus-visibe:ring-ring cursor-pointer disabled:opacity-50 h-9 absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/5 xl:translate-x-1/6 [@media(width>=1920px)]:translate-x-1/20 px-3 py-1'>
         <div className='w-[30px] h-[30px] border border-solid border-black rotate-45 cursor-pointer group-hover:scale-110 duration-300'></div>
         <span className='absolute left-[18px] top-[8px] scale-[0.9] rotate-180 group-hover:scale-105 duration-300'><svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-6"><path d="M7 6.007c0-1.222 1.333-1.977 2.383-1.353l10.5 6.233a1.562 1.562 0 0 1 0 2.706l-10.5 6.233C8.333 20.45 7 19.696 7 18.473V6.007Z" /></svg>
-</span>
+       </span>
         <span>DISCOVER A.I.</span>
         </button>
+           </div>
+        </motion.div>
        </div>
-       </div>
-       <div id='right-section' className='hidden lg:block fixed top-1/2 right-[calc(-53vw)] xl:right-[calc(-50vw)] -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
+       <div onMouseEnter={() => setHoveredButton('right')}
+        onMouseLeave={() => setHoveredButton(null)} id='right-section' className='hidden lg:block fixed top-1/2 right-[calc(-53vw)] xl:right-[calc(-50vw)] -translate-y-1/2 w-[500px] h-[500px] transition-opacity duration-500 ease-in-out opacity-100'>
        <div className='relative w-full h-full'>
+         <motion.div 
+          animate={{ opacity: hoveredButton === 'left' ? 0 : 1 }} // Disappear if heading moves here
+          className='relative w-full h-full'
+        >
         <div className='w-full h-full border border-dotted border-[#A0A4AB] rotate-45 absolute inset-0'></div>
         <a href='/testing'>
         <button id='take-test-button' className='group inline-flex items-center justify-center gap-4 whitespace-nowrap rounded-md text-sm font-normal text-[#1A1B1C] transition-colors focus-visibility:outline-none focus-visible:ring-1 focus-visibile:ring-ring cursor-pointer disabled:opacity-50 h-9 absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/5 xl:-translate-x-1/6 [@media(width>=1920px)]:-translate-x-1/20 px-3 py-1'>
@@ -65,6 +91,7 @@ export default function Home() {
         </span>
         </button>
         </a>
+         </motion.div>
        </div>
        </div>
       </div>
