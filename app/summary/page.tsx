@@ -4,44 +4,57 @@ import './summary.css'
 
 export default function Summary() {
      const [selectedTab, setSelectedTab] = useState<'RACE' | 'AGE' | 'SEX'>('RACE');
- 
- const ANALYSIS_DATA = {
+
+
+const [userSelections, setUserSelections] = useState({
+  RACE: { label: "South Asian", percentage: 50 },
+  AGE: { label: "50-59", percentage: 85 },
+  SEX: { label: "Male", percentage: 98 },
+});
+
+const ANALYSIS_DATA = {
   RACE: {
-    label: "South Asian",
-    percentage: 50,
     options: [
-      { name: "South Asian", value: "50%" },
-      { name: "White", value: "46%" },
-      { name: "Black", value: "1%" },
-      { name: "Southeast Asian", value: "0%" },
-      { name: "Latino Hispanic", value: "0%" },
-      { name: "East Asian", value: "0%" },
-      { name: "Middle Eastern", value: "0%" },
+      { name: "South Asian", value: 50 },
+      { name: "White", value: 46 },
+      { name: "Black", value: 1 },
+      { name: "Southeast Asian", value: 0 },
+      { name: "Latino Hispanic", value: 0 },
+      { name: "East Asian", value: 0 },
+      { name: "Middle Eastern", value: 0 },
     ]
   },
   AGE: {
-    label: "50-59",
-    percentage: 85,
     options: [
-      { name: "50-59", value: "85%" },
-      { name: "40-49", value: "10%" },
-      { name: "30-39", value: "5%" },
-      { name: "40-49", value: "0%" },
-      { name: "50-59", value: "55%" },
+        { name: "0-2", value: 0 },
+        { name: "3-9", value: 23 },
+        { name: "10-19", value: 85 },
+      { name: "20-29", value: 85 },
+      { name: "30-39", value: 10 },
+      { name: "40-49", value: 5 },
+      { name: "50-59", value: 0 }, 
+      { name: "60-69", value: 0 },    
     ]
   },
   SEX: {
-    label: "Male",
-    percentage: 98,
     options: [
-      { name: "Male", value: "98%" },
-      { name: "Female", value: "2%" },
+      { name: "Male", value: 98 },
+      { name: "Female", value: 2 },
     ]
   }
 };
- const currentData = ANALYSIS_DATA[selectedTab];
-  const strokeDashoffset = 308.819 - (308.819 * currentData.percentage) / 100;
+const handleOptionClick = (name: string, value: number) => {
+  setUserSelections((prev) => ({
+    ...prev,
+    [selectedTab]: { label: name, percentage: value }
+  }));
+};
+
+
+const activeSelection = userSelections[selectedTab];
+const currentOptions = ANALYSIS_DATA[selectedTab].options;
 const TABS = ['RACE', 'AGE', 'SEX'] as const;
+  const strokeDashoffset = 308.819 - (308.819 * activeSelection.percentage) / 100;
   return (
     <div>
       <div className='h-screen md:h-[90vh] flex flex-col md:mt-5'>
@@ -63,14 +76,14 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
           className={`p-3 cursor-pointer flex-1 flex flex-col justify-between border-t transition-colors duration-300 ${
             isActive ? 'bg-[#1A1B1C] text-white' : 'bg-[#F3F3F4] text-black hover:bg-[#E1E1E2]'
           }`}
-        >    <p className="text-base font-semibold">{ANALYSIS_DATA[tab].label}</p>
+        >    <p className="text-base font-semibold">{userSelections[tab].label}</p>
           <h4 className="text-base font-semibold mb-1">{tab}</h4>
         </div>
       );
     })}
                     </div>
                     <div className='relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t'>
-                        <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2"> {currentData.label}{selectedTab === 'AGE' && ' y.o.'}</p>
+                        <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2"> {activeSelection.label}{selectedTab === 'AGE' && ' y.o.'}</p>
                         <div className='relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2'>
                             <div style={{width: '100%', height: '100%', maxHeight: '384px', position: 'relative', transform:'scale(1)', transformOrigin: 'center center'}}>
                                  <svg className="CircularProgressbar text-[#1A1B1C]" viewBox="0 0 100 100" data-test-id="CircularProgressbar"><path className="CircularProgressbar-trail" d="
@@ -83,9 +96,9 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
       m 0,-49.15
       a 49.15,49.15 0 1 1 0,98.3
       a 49.15,49.15 0 1 1 0,-98.3
-    " strokeWidth="1.7" fillOpacity="0" style={{stroke: 'rgb(26, 27, 28)', transitionDuration: '0.8s', strokeDasharray: '308.819px, 308.819px', strokeDashoffset: `${strokeDashoffset}px`}}></path></svg>
+    " strokeWidth="1.7" fillOpacity="0" style={{stroke: 'rgb(26, 27, 28)', transitionDuration: '0.8s', strokeDasharray: '308.819px, 308.819px', strokeDashoffset: `${strokeDashoffset}px`, transition: 'stroke-dashoffset 0.5s ease-in-out'}}></path></svg>
                              <div className='absolute inset-0 flex items-center justify-center'>
-                                <p className="text-3xl md:text-[40px] font-normal"> {currentData.percentage}<span className="absolute text-xl md:text-3xl">%</span></p>
+                                <p className="text-3xl md:text-[40px] font-normal"> {activeSelection.percentage}<span className="absolute text-xl md:text-3xl">%</span></p>
                              </div>
                                  </div>
                         </div>
@@ -99,39 +112,33 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   </div>
 
   
-  {currentData.options.map((option, index) => {
-    
-    const isSelected = option.name === currentData.label;
+  {currentOptions.map((option, index) => {
+  const isSelected = option.name === activeSelection.label;
 
-    return (
-      <div
-        key={index}
-        className={`flex items-center justify-between h-[48px] px-4 cursor-pointer transition-colors duration-200 ${
-          isSelected 
-            ? "bg-[#1A1B1C] text-white hover:bg-black" 
-            : "text-black hover:bg-[#E1E1E2]"
-        }`}
-      >
-        <div className="flex items-center gap-1">
-          <img
-            alt="radio button"
-            loading="lazy"
-            width="12"
-            height="12"
-            className={`w-[12px] h-[12px] mr-2 ${isSelected ? "invert" : ""}`}
-            src="/radio-button.png"
-            style={{ color: 'transparent' }}
-          />
-          <span className="font-normal text-base leading-6 tracking-tight">
-            {option.name}
-          </span>
-        </div>
-        <span className="font-normal text-base leading-6 tracking-tight">
-          {option.value}
-        </span>
+  return (
+    <div
+      key={index}
+     
+      onClick={() => handleOptionClick(option.name, option.value)}
+      className={`flex items-center justify-between h-[48px] px-4 cursor-pointer transition-colors duration-200 ${
+        isSelected 
+          ? "bg-[#1A1B1C] text-white hover:bg-black" 
+          : "text-black hover:bg-[#E1E1E2]"
+      }`}
+    >
+      <div className="flex items-center gap-1">
+        <img
+          alt="radio button"
+          className={`w-[12px] h-[12px] mr-2 ${isSelected ? "invert" : ""}`}
+          src="/radio-button.png"
+        />
+        <span className="font-normal text-base leading-6">{option.name}</span>
       </div>
-    );
-  })}
+      <span className="font-normal text-base leading-6">{option.value}%</span>
+    </div>
+  );
+})}
+
 </div>
 
                         </div>
