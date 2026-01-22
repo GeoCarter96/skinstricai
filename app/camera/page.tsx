@@ -11,7 +11,7 @@ export default function Camera() {
    
     const timer = setTimeout(() => {
       router.push('/camera/capture'); 
-    }, 3000);
+    }, 2000);
 
 
     return () => clearTimeout(timer);

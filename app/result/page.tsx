@@ -1,9 +1,55 @@
 'use client'
 import './result.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 
 export default function Result() {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const router = useRouter();
+     const fileInputRef = useRef<HTMLInputElement>(null);
+const [isUploading, setIsUploading] = useState(false);
+useEffect(() => {
+  if (isUploading) {
+    const timer = setTimeout(() => {
+      alert("Image Analyzed Successfully!");
+    }, 1000); 
+
+    return () => clearTimeout(timer);
+  }
+}, [isUploading]);
+       const handleGalleryClick = () => {
+     console.log("Triggering file explorer...");
+    fileInputRef.current?.click();
+  };
+   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setIsUploading(true);
+      // Simulate analysis time
+      setTimeout(() => {
+        router.push('/select');
+      }, 3500);
+    }
+  };
+
+   if (isUploading) {
+    return (
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white">
+         <img alt='diamond large' loading='lazy' width={482} height={482} decoding='async' data-nimg={1} className='absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slow rotate-200' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color: 'transparent'}}/>
+        
+        <img alt='diamond medium' loading='lazy' width={444.34} height={444.34} decoding='async' data-nimg={1} className='absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-190' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color: 'transparent'}}/>
+        
+        <img alt='diamond small' loading='lazy' width={405.18} height={405.18} decoding='async' data-nimg={1} className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest rotate-190' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color: 'transparent'}}/>
+        
+        <h2 className="mt-10 text-l font-light tracking-[0.2em] text-[#1A1B1C] uppercase animate-pulse">
+          Preparing Your Analysis...
+        </h2>
+        <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-widest">
+          Skinstric A.I. Processing
+        </p>
+      </div>
+    );
+  }
   return (
     <div>
       <div className='min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center'>
@@ -38,7 +84,7 @@ export default function Result() {
                   e.stopPropagation(); 
                   setIsPopupVisible(false);
                 }}  >DENY</button>
-                            <button className='px-5 md:translate-x-45 text-[#FCFCFC] font-semibold text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-300'>ALLOW</button>
+                            <button  onClick={() => router.push('/camera')} className='px-5 md:translate-x-45 text-[#FCFCFC] font-semibold text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-300'>ALLOW</button>
                         </div>
                     </div>
                 </div>
@@ -50,8 +96,15 @@ export default function Result() {
                  <img alt='diamond medium' loading='lazy' width='448' height='448' decoding='async' data-nimg='1' className='absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-195' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                   <img alt='diamond small' loading='lazy' width='408' height='408' decoding='async' data-nimg='1' className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest ' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                 <div className='absolute inset-0 flex flex-col items-center justify-center'>
-                    <img alt='photo upload icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1' className='absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer' src='/photoupload.png'/>
-                    <div className='absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px]'>
+                    <img  onClick={handleGalleryClick} alt='photo upload icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1' className='absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer' src='/photoupload.png'/>
+      <input 
+  type="file" 
+  ref={fileInputRef} 
+  className="hidden" 
+  accept="image/*" 
+  onChange={handleFileChange} 
+/>
+                    <div  onClick={handleGalleryClick} className='absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px]'>
                         <p className='text-xs  md:text-sm  font-normal mt-1 leading-[24px] text-right'>
                             ALLOW A.I.
                             <br></br>
