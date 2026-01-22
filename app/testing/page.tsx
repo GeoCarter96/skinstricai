@@ -12,7 +12,7 @@ export default function Testing() {
      const [step, setStep] = useState(1); 
   const [formData, setFormData] = useState({ name: '', city: '' });
   const [inputValue, setInputValue] = useState('');
-  const isCityFinished = step === 2 && inputValue.trim().length > 2;
+  const isCityFinished = step === 2 && inputValue.trim().length > 4;
   const [loading, setLoading] = useState(false);
 const [isSubmitted, setIsSubmitted] = useState(false);
 
