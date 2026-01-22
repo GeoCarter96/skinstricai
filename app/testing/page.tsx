@@ -12,45 +12,37 @@ export default function Testing() {
      const [step, setStep] = useState(1); 
   const [formData, setFormData] = useState({ name: '', city: '' });
   const [inputValue, setInputValue] = useState('');
-    const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-const isCityFinished = step === 2 && inputValue.trim().length > 2;
-  
-useEffect(() => {
-     console.log("Effect triggered");
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne', {params:{ uid: 1} });
-        setData(response.data);
-        console.log(response)
-      } catch (err) {
-  if (axios.isAxiosError(err)) {
-    console.log("Server Error Message:", err.response?.data);
-    setError(err.response?.data?.message || "Check your query parameters");
-  }
+  const isCityFinished = step === 2 && inputValue.trim().length > 2;
+  const [loading, setLoading] = useState(false);
+const [isSubmitted, setIsSubmitted] = useState(false);
 
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (step === 1) {
-      setFormData({ ...formData, name: inputValue });
-      setInputValue(''); 
-      setStep(2);
-    } else {
+  if (step === 1) {
+    setFormData({ ...formData, name: inputValue });
+    setInputValue('');
+    setStep(2);
+  } else {
+   
+    setLoading(true);
+    try {
+      await axios.post("https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne", {
+        name: formData.name,
+        location: inputValue,
+      });
       
-      console.log("Final Data:", { ...formData, city: inputValue });
-    
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
+};
+
+
   return (
     <div>
       <div className='min-h-[90vh] flex flex-col items-center justify-center bg-white text-center'>
@@ -58,6 +50,15 @@ useEffect(() => {
             <p className='font-semibold text-xs'>TO START ANALYSIS</p>
         </div>
         <div className='relative flex flex-col items-center justify-center mb-40 w-full h-full'>
+             {loading ? (
+    
+    <p className='text-2xl animate-pulse uppercase tracking-widest'>Analyzing...</p>
+  ) : isSubmitted ? (
+      <div className='text-center animate-fadeIn'>
+      <h2 className='text-5xl font-normal text-[#1A1B1C]'>Thank You! {formData.name}</h2>
+      <p className='text-gray-400 mt-2 uppercase tracking-tighter'>Proceed for the next step</p>
+    </div>
+  ) : ( <>
             <p className='text-sm text-gray-400 tracking-wider uppercase mb-1'>CLICK TO TYPE</p>
             <form onSubmit={handleSubmit} className='relative z-10'>
                 <div className='flex flex-col items-center'></div>
@@ -67,6 +68,8 @@ useEffect(() => {
                 <button type='submit' className='sr-only'>Submit</button>
                 
             </form>
+            </>
+              )}
             <img alt='diamond large' loading='lazy' width='484' height='484' decoding='async' data-nimg='1' className='absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slow rotate-205' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                  <img alt='diamond medium' loading='lazy' width='448' height='448' decoding='async' data-nimg='1' className='absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-195' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                   <img alt='diamond small' loading='lazy' width='408' height='408' decoding='async' data-nimg='1' className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest ' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
@@ -88,16 +91,23 @@ useEffect(() => {
             </div>
             </a>
             <a className='inine-block' href='/result'>
-            <div className='invisible' style={{position: 'relative', translate: 'none', rotate: 'none', scale: 'none', transform: 'translate(0px,0%)'}}>
+            <div style={{position: 'relative', translate: 'none', rotate: 'none', scale: 'none', transform: 'translate(0px,0%)'}}>
                 <div>
-                    <div className='w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
-                        <span  onClick={isCityFinished ? handleSubmit : undefined} className={`
-  rotate-[-45deg] text-xs font-semibold sm:hidden transition-all duration-500
-  ${isCityFinished ? 'opacity-100 translate-y-0 visible cursor-pointer' : 'opacity-0 translate-y-4 invisible pointer-events-none'}
-`}>PROCEED</span>
+                    <div className={`w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 transition-all duration-500 sm:hidden
+                ${isCityFinished || isSubmitted 
+                    ? 'opacity-100 translate-y-0 visible' 
+                    : 'opacity-0 translate-y-10 invisible pointer-events-none'
+                }`}>
+                        <span   className='rotate-[-45deg] text-xs font-semibold sm:hidden transition-all duration-500'>PROCEED</span>
+
+
                         </div>
-                        <div className='group hidden sm:flex flex-row relative justify-center items-center'>
-                            <span  onClick={isCityFinished ? handleSubmit : undefined}  className={`text-sm font-semibold hidden sm:block mr-5  ${isCityFinished ? 'opacity-100 translate-y-0 visible cursor-pointer' : 'opacity-0 translate-y-4 invisible pointer-events-none'}`}>PROCEED</span>
+                        <div className={`group hidden sm:flex flex-row relative justify-center items-center transition-all duration-500
+                ${isCityFinished || isSubmitted 
+                    ? 'opacity-100 translate-y-0 visible' 
+                    : 'opacity-0 translate-y-10 invisible pointer-events-none'
+                }`}>
+                            <span    className='text-sm font-semibold hidden sm:block mr-5'  >PROCEED</span>
                             <div className='w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300'></div>
                             <span className='absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300'>
                                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M8 5v14l11-7z" /></svg>

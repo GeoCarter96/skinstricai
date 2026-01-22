@@ -1,0 +1,12 @@
+
+.animate-spin-slow {
+    animation: spin 50s linear infinite
+}
+
+.animate-spin-slower {
+    animation: spin 70s linear infinite
+}
+
+.animate-spin-slowest {
+    animation: spin 85s linear infinite
+}
