@@ -29,10 +29,15 @@ export default function Select() {
                         <img alt='diamond large' loading='lazy' decoding='async' data-nimg='fill' sizes='100vw' src='/rotate.png' style={{position: 'absolute', height: '100%', width: '100%', inset: '0px', objectFit: 'contain', color: 'transparent'}}/>
                     </div>
                 </div>
-                <div className='relative z-10 grid grid-cols-3 grid-rows-3 gap-0'>
+                <div className='  group relative z-10 grid grid-cols-3 grid-rows-3 gap-0 p-10'>
+                     <div className='absolute inset-0 m-auto w-[250px] h-[250px] border-2 border-dotted border-gray-300 rotate-45 
+        opacity-0 scale-30 z-[-1] transition-all duration-700 ease-out 
+        group-hover:opacity-100 group-hover:scale-[1.8] pointer-events-none'>
+    </div>
                     <div className='flex items-center justify-center col-start-2'>
                         <a href='/summary'>
                         <button className='w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold leading-[24px] tracking-tight uppercase hover:scale-[1.05] transition-transform duration-300'>
+    
                             <span className='transform -rotate-45'>Demographics</span>
                         </button>
                         </a>

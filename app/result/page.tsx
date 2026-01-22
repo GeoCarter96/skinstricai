@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
+export interface SkinstricPhaseTwoData {
+    success: boolean,
+    message: string
+}
+
+
 export default function Result() {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const router = useRouter();
