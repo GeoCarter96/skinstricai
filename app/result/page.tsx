@@ -9,6 +9,8 @@ export default function Result() {
     const router = useRouter();
      const fileInputRef = useRef<HTMLInputElement>(null);
 const [isUploading, setIsUploading] = useState(false);
+const [previewImage, setPreviewImage] = useState<string | null>(null);
+
 useEffect(() => {
   if (isUploading) {
     const timer = setTimeout(() => {
@@ -23,14 +25,20 @@ useEffect(() => {
     fileInputRef.current?.click();
   };
    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setIsUploading(true);
-      // Simulate analysis time
-      setTimeout(() => {
-        router.push('/select');
-      }, 3500);
-    }
-  };
+  const file = e.target.files?.[0];
+  if (file) {
+   
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewImage(objectUrl);
+
+    setIsUploading(true);
+    
+    setTimeout(() => {
+      router.push('/select');
+    }, 3500);
+  }
+};
+
 
    if (isUploading) {
     return (
@@ -40,7 +48,18 @@ useEffect(() => {
         <img alt='diamond medium' loading='lazy' width={444.34} height={444.34} decoding='async' data-nimg={1} className='absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-190' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color: 'transparent'}}/>
         
         <img alt='diamond small' loading='lazy' width={405.18} height={405.18} decoding='async' data-nimg={1} className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest rotate-190' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color: 'transparent'}}/>
-        
+        <div className='absolute top-25 right-10 flex flex-col items-start animate-in fade-in slide-in-from-top-4 duration-1000'>
+        <h1 className='font-roobert font-bold text-xs mb-1 uppercase tracking-widest '>Preview</h1>
+        <div className='w-24 h-24 md:w-32 md:h-32 border border-black overflow-hidden bg-gray-50'>
+          {previewImage && (
+            <img 
+              src={previewImage} 
+              alt="Analyzing Preview" 
+              className="w-full h-full object-cover grayscale brightness-110" 
+            />
+          )}
+        </div>
+      </div>
         <h2 className="mt-10 text-l font-light tracking-[0.2em] text-[#1A1B1C] uppercase animate-pulse">
           Preparing Your Analysis...
         </h2>
@@ -96,7 +115,12 @@ useEffect(() => {
                  <img alt='diamond medium' loading='lazy' width='448' height='448' decoding='async' data-nimg='1' className='absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-195' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                   <img alt='diamond small' loading='lazy' width='408' height='408' decoding='async' data-nimg='1' className='absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest ' srcSet='/rotate.png 1x, /rotate2.png 2x' src='/rotate3.png' style={{color:'transparent'}}/>
                 <div className='absolute inset-0 flex flex-col items-center justify-center'>
-                    <img  onClick={handleGalleryClick} alt='photo upload icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1' className='absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer' src='/photoupload.png'/>
+                    <img   onClick={!isPopupVisible ? handleGalleryClick : undefined}  alt='photo upload icon' loading='lazy' width='136' height='136' decoding='async' data-nimg='1'  className={`absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] duration-700 ease-in-out transition-all
+    ${isPopupVisible 
+      ? 'opacity-20 grayscale brightness-150 cursor-default scale-95' 
+      : 'opacity-100 grayscale-0 brightness-100 cursor-pointer hover:scale-108'
+    }
+  `} src='/photoupload.png'/>
       <input 
   type="file" 
   ref={fileInputRef} 
@@ -104,20 +128,32 @@ useEffect(() => {
   accept="image/*" 
   onChange={handleFileChange} 
 />
-                    <div  onClick={handleGalleryClick} className='absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px]'>
+                    <div  onClick={!isPopupVisible ? handleGalleryClick : undefined}   className={`absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px] transition-all duration-500 ease-in-out
+    ${isPopupVisible ? 'grayscale opacity-30 pointer-events-none' : 'grayscale-0 opacity-100 cursor-pointer'}
+  `}
+>
                         <p className='text-xs  md:text-sm  font-normal mt-1 leading-[24px] text-right'>
                             ALLOW A.I.
                             <br></br>
                             ACCESS GALLERY
                         </p>
-                        <img alt='scan line' loading='lazy' width='66.33' height='59.37' decoding='async' data-nimg='1' className='absolute pb-4 hidden md:block md:left-[120px] md:bottom-[39px]' src='/scanline1.png' style={{color: 'transparent'}}/>
+                        <img alt='scan line' loading='lazy' width='66.33' height='59.37' decoding='async' data-nimg='1' className='absolute pb-4 hidden md:block md:left-[120px] md:bottom-[39px]' src='/scanline1.png' />
                     </div>
                 </div>
                 
             </div>
             <div className='absolute top-[-75px] right-7 md:top-[-50px] md:right-8 transition-opactiy duration-300 opacity-100'>
-                <h1 className='text-xs md:text-sm font-normal mb-1'>Preview</h1>
+                <h1 className='font-roobert font-bold text-xs mb-1 uppercase tracking-widest'>Preview</h1>
                 <div className='w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden'></div>
+            {previewImage ? (
+            <img 
+              src={previewImage} 
+              alt="Upload Preview" 
+              className="w-full h-full object-cover"
+            />
+        ) : (
+            <span className="text-[8px] text-gray-400 uppercase">No Image</span>
+        )}
             </div>
             <input accept='image/*' className='hidden' type='file'></input>
         </div>

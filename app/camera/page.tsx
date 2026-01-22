@@ -11,7 +11,7 @@ export default function Camera() {
    
     const timer = setTimeout(() => {
       router.push('/camera/capture'); 
-    }, 2000);
+    }, 3000);
 
 
     return () => clearTimeout(timer);
@@ -41,11 +41,22 @@ export default function Camera() {
              <p className='text-xs md:text-sm font-bold leading-[24px]'>
                     SETTING UP CAMERA
                 </p>
+                
             </div>
         </div>
     </div>
 </div>
-
+<div className='absolute bottom-8 left-0 right-0 text-center z-50'>
+        {/* Changed text color from white to dark so it shows on the white background */}
+        <p className='text-sm mb-2 font-normal leading-6 text-[#1A1B1C]'>
+            TO GET BETTER RESULTS MAKE SURE TO HAVE
+        </p>
+        <div className='flex justify-center space-x-8 text-[10px] md:text-xs leading-6 text-[#1A1B1C] opacity-60'>
+            <p>◇ NEUTRAL EXPRESSION</p>
+            <p>◇ FRONTAL POSE</p>
+            <p>◇ ADEQUATE LIGHTING</p>
+        </div>
+    </div>
     </div>
   )
 }
