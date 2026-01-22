@@ -91,7 +91,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
       m 0,-49.15
       a 49.15,49.15 0 1 1 0,98.3
       a 49.15,49.15 0 1 1 0,-98.3
-    " strokeWidth="1.7" fillOpacity="0" style={{ strokeDasharray: "308.819px, 308.819px"}}></path><path className="CircularProgressbar-path" d="
+    " strokeWidth="1.7" fillOpacity="0" style={{ stroke: "lightgrey", strokeDasharray: "308.819px, 308.819px"}}></path><path className="CircularProgressbar-path" d="
       M 50,50
       m 0,-49.15
       a 49.15,49.15 0 1 1 0,98.3
@@ -129,7 +129,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
       <div className="flex items-center gap-1">
         <img
           alt="radio button"
-          className={`w-[12px] h-[12px] mr-2 ${isSelected ? "invert" : ""}`}
+          className={`w-[12px] h-[12px] mr-2 rounded-full transition-transform duration-300${isSelected ? " bg-white  " : ""}`}
           src="/radio-button.png"
         />
         <span className="font-normal text-base leading-6">{option.name}</span>
