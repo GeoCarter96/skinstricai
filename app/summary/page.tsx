@@ -4,7 +4,17 @@ import './summary.css'
 
 export default function Summary() {
      const [selectedTab, setSelectedTab] = useState<'RACE' | 'AGE' | 'SEX'>('RACE');
-
+const INITIAL_AI_PREDICTIONS = {
+  RACE: { label: "South Asian", percentage: 50 },
+  AGE: { label: "50-59", percentage: 85 },
+  SEX: { label: "Male", percentage: 98 },
+};
+const handleReset = () => {
+ 
+  setUserSelections(INITIAL_AI_PREDICTIONS);
+  
+ 
+};
 
 const [userSelections, setUserSelections] = useState({
   RACE: { label: "South Asian", percentage: 50 },
@@ -56,7 +66,7 @@ const currentOptions = ANALYSIS_DATA[selectedTab].options;
 const TABS = ['RACE', 'AGE', 'SEX'] as const;
   const strokeDashoffset = 308.819 - (308.819 * activeSelection.percentage) / 100;
   return (
-    <div>
+   <div>
       <div className='h-screen md:h-[90vh] flex flex-col md:mt-5'>
         <main className='flex-1 w-full bg-white md:overflow-hidden overflow-auto'>
             <div className='md:h-full max-w-full mx-5 px-4 md:px-auto flex flex-col'>
@@ -150,25 +160,51 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
                             <div className='relative w-12 h-12 flex items-center justify-center boreder border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
                                 <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">BACK</span>
                             </div>
-                            <div className='group hidden sm:flex flex-row relative justify-center items-center'>
+                         <div className='group mt-15 hidden sm:flex flex-row relative justify-center items-center'>
                                 <div className="w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
                                 <span className="absolute left-[15px] bottom-[13px] scale-[0.9] rotate-180 hidden sm:block group-hover:scale-[0.92] ease duration-300">▶</span>
-                                <span className="text-sm font-semibold hidden sm:block ml-6 ">BACK</span>
+                                <span className="text-sm font-semibold hidden sm:block ml-6  ">BACK</span>
                             </div>
+
                         </div>
                         </a>
-                        <a href='/'>
                         <div>
-                            <div className='w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 sclae-[1] sm:hidden'>
-                                <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">HOME</span>
-                            </div>
-                            <div className='hidden sm:flex flex-row relative justify-center items-center'>
-                                <span className="text-sm font-semibold hidden sm:block mr-5">HOME</span>
-                                <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85]"></div>
-                                <span className="absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block">▶</span>
+                        <div>
+                           <div className='hidden sm:flex flex-row items-center justify-between w-full mt-10 pt-6 border-t border-gray-100'>
+  
+  
+  <button onClick={handleReset} className=" flex items-center focus:outline-none">
+    <span className=" hidden lg:block hover:scale-[1.1] ease cursor-pointer text-sm font-semibold mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-gray-100">
+        RESET
+    </span>
+    
+    
+  </button>
+
+  <button onClick={() => console.log(userSelections)} className=" flex items-center focus:outline-none">
+    <span className=" hidden lg:block cursor-not-allowed text-sm font-semibold mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-zinc-800">
+        CONFIRM
+    </span>
+  
+  </button>
+
+</div>
+
+                            <div className='hidden max-[1024px]:flex flex-row relative justify-center items-center'>
+                                  <button onClick={handleReset} className="group flex items-center focus:outline-none">
+
+        <span className="  hover:scale-[1.1] ease cursor-pointer  hidden max-[1024px]:block  text-sm font-semibold mt-2 mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
+            RESET
+        </span></button>
+           <span className="cursor-not-allowed  hidden max-[1024px]:block  text-sm font-semibold mt-2 mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
+  CONFIRM
+</span>
+
+                                
+                          
                             </div>
                         </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
