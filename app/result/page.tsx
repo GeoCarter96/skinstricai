@@ -17,6 +17,26 @@ export default function Result() {
 const [isUploading, setIsUploading] = useState(false);
 const [previewImage, setPreviewImage] = useState<string | null>(null);
 
+
+
+const uploadImage = async (base64String: string) => {
+  try {
+    const response = await fetch('https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseTwo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        image: base64String,
+        filename: 'profile.png' 
+      })
+    });
+    const result = await response.json();
+    console.log("Upload Success:", result);
+  } catch (error) {
+    console.error("Upload Error:", error);
+  }
+};
+
+
 useEffect(() => {
   if (isUploading) {
     const timer = setTimeout(() => {
@@ -26,24 +46,34 @@ useEffect(() => {
     return () => clearTimeout(timer);
   }
 }, [isUploading]);
-       const handleGalleryClick = () => {
-     console.log("Triggering file explorer...");
-    fileInputRef.current?.click();
-  };
-   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (file) {
-   
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewImage(objectUrl);
 
-    setIsUploading(true);
-    
-    setTimeout(() => {
-      router.push('/select');
-    }, 3500);
-  }
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const objectUrl = URL.createObjectURL(file);
+  setPreviewImage(objectUrl);
+  setIsUploading(true);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const base64Data = reader.result as string;
+    const rawBase64 = base64Data.split(',')[1];
+    uploadImage(rawBase64);
+  };
+  reader.readAsDataURL(file);
+
+ 
+  setTimeout(() => {
+    router.push('/select');
+  }, 3500);
 };
+
+const handleGalleryClick = () => {
+  fileInputRef.current?.click();
+};
+
 
 
    if (isUploading) {
@@ -77,6 +107,13 @@ useEffect(() => {
   }
   return (
     <div>
+         <input 
+  type="file" 
+  ref={fileInputRef} 
+  className="hidden" 
+  accept="image/*" 
+  onChange={handleFileChange} 
+/>
       <div className='min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center'>
         <div className='absolute top-2 left-9 md:left-8 text-left'>
             <p className='font-semibold text-xs md:text-sm'>TO START ANALYSIS</p>
@@ -127,13 +164,7 @@ useEffect(() => {
       : 'opacity-100 grayscale-0 brightness-100 cursor-pointer hover:scale-108'
     }
   `} src='/photoupload.png'/>
-      <input 
-  type="file" 
-  ref={fileInputRef} 
-  className="hidden" 
-  accept="image/*" 
-  onChange={handleFileChange} 
-/>
+     
                     <div  onClick={!isPopupVisible ? handleGalleryClick : undefined}   className={`absolute top-[75%] md:top-[70%] md:left-[17px] translate-y-[10px] transition-all duration-500 ease-in-out
     ${isPopupVisible ? 'grayscale opacity-30 pointer-events-none' : 'grayscale-0 opacity-100 cursor-pointer'}
   `}

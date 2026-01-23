@@ -1,15 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+
 import './testing.css'
 
-export interface SkinstricPhaseOneData {
-    success: boolean,
-    message: string
-}
+
 
 export default function Testing() {
      const [step, setStep] = useState(1); 
+     const [tempName, setTempName] = useState("");
   const [formData, setFormData] = useState({ name: '', city: '' });
   const [inputValue, setInputValue] = useState('');
   const isCityFinished = step === 2 && inputValue.trim().length > 4;
@@ -17,30 +15,47 @@ export default function Testing() {
 const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
 
   if (step === 1) {
-    setFormData({ ...formData, name: inputValue });
-    setInputValue('');
+    
+    setTempName(inputValue);
     setStep(2);
+      setInputValue("");
   } else {
-   
-    setLoading(true);
+     setLoading(true);
+    const data = {
+      name: tempName.trim(),
+      location: inputValue.trim(),
+    };
+
     try {
-      await axios.post("https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne", {
-        name: formData.name,
-        location: inputValue,
+      const response = await fetch('https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
       });
+       
+      if (response.ok) {
+        
+        setIsSubmitted(true);
+      }
+      const result = await response.json();
+      console.log("API Result:", result);
       
-      setIsSubmitted(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
+       
+    } catch (error) {
+      console.error("Submission Error:", error);
+    }finally {
+     
       setLoading(false);
     }
   }
 };
+
+
 
 
   return (
@@ -62,7 +77,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <p className='text-sm text-gray-400 tracking-wider uppercase mb-1'>CLICK TO TYPE</p>
             <form onSubmit={handleSubmit} className='relative z-10'>
                 <div className='flex flex-col items-center'></div>
-                <input className='text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10' placeholder={step === 1 ? 'Introduce Yourself' : 'City Name?'}  autoComplete='off' type='text'   value={inputValue}
+                <input className='text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10' placeholder={step === 1 ? 'Introduce Yourself' : 'City Name?'}  name="fullEntry"  autoComplete='off' type='text' required   value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         autoFocus/>
                 <button type='submit' className='sr-only'>Submit</button>

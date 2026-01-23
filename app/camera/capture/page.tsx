@@ -11,6 +11,32 @@ const [isAnalyzing, setIsAnalyzing] = useState(false);
 const video = videoRef.current;
 const router = useRouter();
   const canvas = canvasRef.current;
+const uploadCapturedImage = async (dataUrl: string) => {
+  
+
+  
+  const base64String = dataUrl.split(',')[1];
+
+  try {
+    const response = await fetch('https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseTwo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        image: base64String,
+        filename: 'selfie.png' 
+      })
+    });
+    const result = await response.json();
+    console.log("Analysis Success:", result);
+
+   
+
+  } catch (error) {
+    console.error("Upload Error:", error);
+    
+     alert("Upload failed. Please try again.");
+  }
+};
 
 
   
@@ -33,7 +59,7 @@ canvas.height = video.videoHeight || 480;
      
       const imageData = canvas.toDataURL('image/png');
       setCapturedImage(imageData);
-      
+       uploadCapturedImage(imageData); 
       console.log("Photo Captured!");
       
     }
@@ -105,6 +131,7 @@ canvas.height = video.videoHeight || 480;
        <button onClick={() => setCapturedImage(null)} className="px-4 py-1 bg-gray-200 text-gray-800 cursor-pointer hover:bg-gray-300 shadow-md text-sm">Retake</button>
        <button onClick={() => {
             setIsAnalyzing(true);
+            uploadCapturedImage(capturedImage); 
             setTimeout(() => {
               router.push('/select');
             }, 3000); 
