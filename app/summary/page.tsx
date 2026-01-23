@@ -190,7 +190,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
 
 </div>
                                         { /*mobile buttons */}
-                            <div className='flex lg:hidden flex-row relative justify-center items-center w-12 h-12 relative'>
+                            <div className='flex lg:hidden flex-row relative justify-center items-center w-12 h-12 relative mr-5'>
                                   <button onClick={handleReset} className="group flex items-center focus:outline-none">
         <span className="  hover:scale-[1.1] transition-transform cursor-pointer  text-sm font-semibold  mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
             RESET
