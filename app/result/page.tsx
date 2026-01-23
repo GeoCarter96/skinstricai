@@ -31,21 +31,20 @@ const uploadImage = async (base64String: string) => {
       })
     });
     if (!response.ok) throw new Error('Upload failed');
-     const data = await response.json();
-     setAnalysisResults({
-    race: data.race,
-    racePercentage: data.race_confidence,
-    age: data.age_range,
-    agePercentage: data.age_confidence,
-    sex: data.gender,
-    sexPercentage: data.gender_confidence,
-  });
+    const result = await response.json();
+    
+
+
+    setAnalysisResults(result.data);
+
+    console.log("AI Data Loaded:", result.data);
+
 
    
-    console.log("Upload Success:", data);
+    
   } catch (error) {
     console.error("Upload Error:", error);
-     alert("Failed to analyze image. Please try again.");
+    
   }
 };
 

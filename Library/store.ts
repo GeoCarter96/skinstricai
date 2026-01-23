@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware'; 
-
+import { persist } from 'zustand/middleware';
 
 const INITIAL_STATE = {
   RACE: { label: "South Asian", percentage: 0 },
@@ -8,8 +7,24 @@ const INITIAL_STATE = {
   SEX: { label: "Male", percentage: 0 },
 };
 
+const getTopPrediction = (dataObject: Record<string, number>) => {
+  if (!dataObject || Object.keys(dataObject).length === 0) {
+    return { label: "Unknown", percentage: 0 };
+  }
+
+  const [label, value] = Object.entries(dataObject).reduce((prev, curr) => 
+    curr[1] > prev[1] ? curr : prev
+  );
+
+  return {
+    label: label.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+    percentage: Math.round(value * 100),
+  };
+};
+
 interface AnalysisStore {
   userSelections: typeof INITIAL_STATE;
+  rawAiResults: any | null; 
   setAnalysisResults: (results: any) => void;
   updateSelection: (category: keyof typeof INITIAL_STATE, label: string, percentage: number) => void;
   resetSelections: () => void;
@@ -18,17 +33,27 @@ interface AnalysisStore {
 export const useAnalysisStore = create<AnalysisStore>()(
   persist(
     (set) => ({
-  userSelections: INITIAL_STATE,
+      userSelections: INITIAL_STATE,
+      rawAiResults: null, 
 
-  setAnalysisResults: (results) => set({
-    userSelections: {
-      RACE: { label: results.race, percentage: results.racePercentage },
-      AGE: { label: results.age, percentage: results.agePercentage },
-      SEX: { label: results.sex, percentage: results.sexPercentage },
-    }
-  }),
+      setAnalysisResults: (results) => {
+        if (!results) return;
 
-    updateSelection: (category, label, percentage) =>
+        const raceResult = getTopPrediction(results.race);
+        const ageResult = getTopPrediction(results.age);
+        const sexResult = getTopPrediction(results.gender); 
+
+        set({
+          rawAiResults: results, 
+          userSelections: {
+            RACE: raceResult,
+            AGE: ageResult,
+            SEX: sexResult,
+          }
+        });
+      },
+
+      updateSelection: (category, label, percentage) =>
         set((state) => ({
           userSelections: {
             ...state.userSelections,
@@ -36,11 +61,8 @@ export const useAnalysisStore = create<AnalysisStore>()(
           },
         })),
 
-      resetSelections: () => set({ userSelections: INITIAL_STATE }),
-    }), 
-    { 
-      name: 'ai-analysis-storage' 
-    } 
+      resetSelections: () => set({ userSelections: INITIAL_STATE, rawAiResults: null }),
+    }),
+    { name: 'ai-analysis-storage' }
   )
 );
-

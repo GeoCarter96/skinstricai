@@ -28,24 +28,22 @@ const uploadCapturedImage = async (dataUrl: string) => {
       })
     });
     if (!response.ok) throw new Error('Upload failed');
-    const data = await response.json();
-     setAnalysisResults({
-    race: data.race,
-    racePercentage: data.race_confidence,
-    age: data.age_range,
-    agePercentage: data.age_confidence,
-    sex: data.gender,
-    sexPercentage: data.gender_confidence,
-  });
+      const result = await response.json();
+    
 
-    console.log("Analysis Success:", data);
+
+    setAnalysisResults(result.data);
+
+    console.log("AI Data Loaded:", result.data);
+
+    
 
    
 
   } catch (error) {
     console.error("Upload Error:", error);
     
-     alert("Upload failed. Please try again.");
+     
   }
 };
 

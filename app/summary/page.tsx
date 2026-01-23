@@ -6,7 +6,7 @@ import { useAnalysisStore } from '@/Library/store';
 
 const LABELS = {
   RACE: ["South Asian", "White", "Black", "Southeast Asian", "Latino Hispanic", "East Asian", "Middle Eastern"],
-  AGE: ["0-2", "3-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69"],
+  AGE: ["0-2", "3-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70+"],
   SEX: ["Male", "Female"]
 };
 
@@ -14,40 +14,53 @@ export default function Summary() {
   
 
 
-const { userSelections, updateSelection, resetSelections } = useAnalysisStore();
-
+const { userSelections, updateSelection, resetSelections, rawAiResults } = useAnalysisStore();
 const [selectedTab, setSelectedTab] = useState<'RACE' | 'AGE' | 'SEX'>('RACE');
 
-
 const activeSelection = userSelections[selectedTab];
-
 const TABS = ['RACE', 'AGE', 'SEX'] as const;
+
+
 const strokeDashoffset = 308.819 - (308.819 * activeSelection.percentage) / 100;
 
 
- const currentOptions = useMemo(() => {
-    const labels = LABELS[selectedTab];
-    
-    return labels.map(label => {
-    
-      const isActive = label === activeSelection.label;
-      return {
-        name: label,
-        value: isActive ? activeSelection.percentage : 0
-      };
-    });
-  }, [selectedTab, activeSelection]);
+const currentOptions = useMemo(() => {
+  const labels = LABELS[selectedTab];
+  
+  const apiCategoryMap = {
+    RACE: 'race',
+    AGE: 'age',
+    SEX: 'gender'
+  } as const;
 
-  const handleReset = () => {
-    resetSelections(); 
-  };
+ 
+  const categoryData = rawAiResults?.[apiCategoryMap[selectedTab]];
 
-  const handleOptionClick = (name: string, value: number) => {
-     updateSelection(selectedTab, name, value);
-  };
-useEffect(() => {
-  console.log("Current Store State:", userSelections);
-}, [userSelections]);
+  return labels.map(label => {
+    
+    const isSelectedInStore = label === activeSelection.label;
+
+   
+    if (isSelectedInStore && activeSelection.percentage === 100) {
+      return { name: label, value: 100 };
+    }
+
+    const aiValue = categoryData?.[label.toLowerCase()] || 0;
+    return {
+      name: label,
+      value: Math.round(aiValue * 100)
+    };
+  });
+}, [selectedTab, activeSelection, rawAiResults]);
+
+const handleReset = () => {
+  resetSelections(); 
+};
+
+const handleOptionClick = (name: string, value: number) => {
+  updateSelection(selectedTab, name, value);
+};
+
 
 
 
