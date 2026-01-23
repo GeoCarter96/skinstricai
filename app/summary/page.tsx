@@ -68,7 +68,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   return (
    <div>
       <div className='h-screen md:h-[90vh] flex flex-col md:mt-5'>
-        <main className='flex-1 w-full bg-white md:overflow-hidden overflow-auto'>
+        <main className='flex-1  pb-32 w-full bg-white md:overflow-hidden overflow-auto'>
             <div className='md:h-full max-w-full mx-5 px-4 md:px-auto flex flex-col'>
                 <div className='text-start ml-4 mb-4 md:mb-10 md:ml-0'>
                     <h2 className="text-base md:text-base font-semibold mb-1 leading-[24px]">A.I. ANALYSIS</h2>
@@ -153,14 +153,14 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
 
                         </div>
                     </div>
-                    <div className='pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16'>
+                    <div className='pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16 '>
                     <div className='flex justify-between max-w-full mx-auto px-4 md:px-0'>
                         <a href='/select'>
                         <div>
-                            <div className='relative w-12 h-12 flex items-center justify-center boreder border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
+                            <div className='relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden'>
                                 <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">BACK</span>
                             </div>
-                         <div className='group mt-15 hidden sm:flex flex-row relative justify-center items-center'>
+                         <div className='group mt-[60px] hidden sm:flex flex-row relative justify-center items-center'>
                                 <div className="w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
                                 <span className="absolute left-[15px] bottom-[13px] scale-[0.9] rotate-180 hidden sm:block group-hover:scale-[0.92] ease duration-300">▶</span>
                                 <span className="text-sm font-semibold hidden sm:block ml-6  ">BACK</span>
@@ -170,11 +170,11 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
                         </a>
                         <div>
                         <div>
-                           <div className='hidden sm:flex flex-row items-center justify-between w-full mt-10 pt-6 border-t border-gray-100'>
+                           <div className='hidden sm:flex  bottom-0 mt-auto px-10 flex-row items-center justify-end w-full mt-10 pt-6 border-t border-gray-100'>
   
   
   <button onClick={handleReset} className=" flex items-center focus:outline-none">
-    <span className=" hidden lg:block hover:scale-[1.1] ease cursor-pointer text-sm font-semibold mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-gray-100">
+    <span className=" hidden lg:block  hover:scale-[1.1] ease cursor-pointer text-sm font-semibold mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-gray-100">
         RESET
     </span>
     
@@ -190,13 +190,13 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
 
 </div>
 
-                            <div className='hidden max-[1024px]:flex flex-row relative justify-center items-center'>
+                            <div className='flex lg:hidden flex-row relative justify-center items-center w-full h-40 relative'>
                                   <button onClick={handleReset} className="group flex items-center focus:outline-none">
 
-        <span className="  hover:scale-[1.1] ease cursor-pointer  hidden max-[1024px]:block  text-sm font-semibold mt-2 mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
+        <span className="  hover:scale-[1.1] transition-transform cursor-pointer  text-sm font-semibold  mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
             RESET
         </span></button>
-           <span className="cursor-not-allowed  hidden max-[1024px]:block  text-sm font-semibold mt-2 mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
+           <span className="cursor-not-allowed   text-sm font-semibold  px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
   CONFIRM
 </span>
 
