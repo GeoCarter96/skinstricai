@@ -262,10 +262,7 @@
         list-style: none
     }
 
-    audio,canvas,embed,iframe,img,object,svg,video {
-        vertical-align: middle;
-        display: block
-    }
+   
 
     img,video {
         max-width: 100%;
@@ -716,12 +713,7 @@
         margin-left: calc(var(--spacing)*6)
     }
 
-    .line-clamp-4 {
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        display: -webkit-box;
-        overflow: hidden
-    }
+   
 
     .block {
         display: block

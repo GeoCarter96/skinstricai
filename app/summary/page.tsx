@@ -68,11 +68,23 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   return (
    <div>
       <div className='h-screen md:h-[90vh] flex flex-col md:mt-5'>
-        <main className='flex-1  pb-32 w-full bg-white md:overflow-hidden overflow-auto'>
+        <main className='flex-1  pb-32 w-full bg-white sm:overflow-hidden overflow-auto'>
             <div className='md:h-full max-w-full mx-5 px-4 md:px-auto flex flex-col'>
                 <div className='text-start ml-4 mb-4 md:mb-10 md:ml-0'>
                     <h2 className="text-base md:text-base font-semibold mb-1 leading-[24px]">A.I. ANALYSIS</h2>
+                     <div className="flex items-center ">
                     <h3 className="text-4xl md:text-[72px] font-normal leading-[64px] tracking-tighter">DEMOGRAPHICS</h3>
+                      <button className="p-3   rounded-full transition-colors focus:outline-none">
+          
+            <img srcSet="/leftdiamond.png" alt="leftdiamond" className="w-10 h-10 mb-20 hover:scale-[1.1] ease duration-300 cursor-pointer" />
+        </button>
+
+       
+        <button  className="p-3   rounded-full transition-colors focus:outline-none">
+             
+            <img src="/rightdiamond.png" alt="rightdiamond" className="w-10 h-10 mb-20 hover:scale-[1.1] ease duration-300 cursor-pointer " />
+        </button>
+                     </div>
                     <h4 className="text-sm mt-2 leading-[24px]">PREDICTED RACE &amp; AGE</h4>
                 </div>
                 <div className='grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4 pb-0 md:pb-0 md:mb-0'>
@@ -170,11 +182,11 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
                         </a>
                         <div>
                         <div>
-                           <div className='hidden sm:flex  bottom-0 mt-auto px-10 flex-row items-center justify-end w-full mt-10 pt-6 border-t border-gray-100'>
+                           <div className='hidden sm:flex mt-15 flex-row items-center justify-center relative '>
   
   
   <button onClick={handleReset} className=" flex items-center focus:outline-none">
-    <span className=" hidden lg:block  hover:scale-[1.1] ease cursor-pointer text-sm font-semibold mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-gray-100">
+    <span className=" hidden lg:block  hover:scale-[1.1] ease duration-300 cursor-pointer text-sm font-semibold mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-gray-100">
         RESET
     </span>
     
@@ -182,7 +194,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   </button>
 
   <button onClick={() => console.log(userSelections)} className=" flex items-center focus:outline-none">
-    <span className=" hidden lg:block cursor-not-allowed text-sm font-semibold mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-zinc-800">
+    <span className=" hidden lg:block cursor-not-allowed hover:scale-[1.1] ease duration-300 text-sm font-semibold mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-zinc-800">
         CONFIRM
     </span>
   
@@ -192,10 +204,10 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
                                         { /*mobile buttons */}
                             <div className='flex lg:hidden flex-row relative justify-center items-center w-12 h-12 relative mr-5'>
                                   <button onClick={handleReset} className="group flex items-center focus:outline-none">
-        <span className="  hover:scale-[1.1] transition-transform cursor-pointer  text-sm font-semibold  mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
+        <span className="  hover:scale-[1.1] ease duration-300 transition-transform cursor-pointer  text-sm font-semibold  mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
             RESET
         </span></button>
-           <span className="cursor-not-allowed   text-sm font-semibold  px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
+           <span className="cursor-not-allowed  hover:scale-[1.1] ease duration-300 text-sm font-semibold  px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
   CONFIRM
 </span>
 
