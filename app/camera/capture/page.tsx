@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import './capture.css'
 import { useEffect, useRef,  useState } from 'react';
-
+import { useAnalysisStore } from '@/Library/store';
 export default function Capture() {
      const videoRef = useRef<HTMLVideoElement>(null);
 const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -11,6 +11,7 @@ const [isAnalyzing, setIsAnalyzing] = useState(false);
 const video = videoRef.current;
 const router = useRouter();
   const canvas = canvasRef.current;
+  const setAnalysisResults = useAnalysisStore((state) => state.setAnalysisResults);
 const uploadCapturedImage = async (dataUrl: string) => {
   
 
@@ -26,8 +27,18 @@ const uploadCapturedImage = async (dataUrl: string) => {
         filename: 'selfie.png' 
       })
     });
-    const result = await response.json();
-    console.log("Analysis Success:", result);
+    if (!response.ok) throw new Error('Upload failed');
+    const data = await response.json();
+     setAnalysisResults({
+    race: data.race,
+    racePercentage: data.race_confidence,
+    age: data.age_range,
+    agePercentage: data.age_confidence,
+    sex: data.gender,
+    sexPercentage: data.gender_confidence,
+  });
+
+    console.log("Analysis Success:", data);
 
    
 

@@ -3,6 +3,7 @@ import './result.css'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import { useAnalysisStore } from '@/Library/store';
 
 export interface SkinstricPhaseTwoData {
     success: boolean,
@@ -17,22 +18,34 @@ export default function Result() {
 const [isUploading, setIsUploading] = useState(false);
 const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-
+const setAnalysisResults = useAnalysisStore((state) => state.setAnalysisResults);
 
 const uploadImage = async (base64String: string) => {
   try {
     const response = await fetch('https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseTwo', {
-      method: 'POST',
+        method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         image: base64String,
         filename: 'profile.png' 
       })
     });
-    const result = await response.json();
-    console.log("Upload Success:", result);
+    if (!response.ok) throw new Error('Upload failed');
+     const data = await response.json();
+     setAnalysisResults({
+    race: data.race,
+    racePercentage: data.race_confidence,
+    age: data.age_range,
+    agePercentage: data.age_confidence,
+    sex: data.gender,
+    sexPercentage: data.gender_confidence,
+  });
+
+   
+    console.log("Upload Success:", data);
   } catch (error) {
     console.error("Upload Error:", error);
+     alert("Failed to analyze image. Please try again.");
   }
 };
 

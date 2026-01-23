@@ -1,70 +1,57 @@
 'use client'
-import { useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import './summary.css'
+import { useAnalysisStore } from '@/Library/store';
+
+
+const LABELS = {
+  RACE: ["South Asian", "White", "Black", "Southeast Asian", "Latino Hispanic", "East Asian", "Middle Eastern"],
+  AGE: ["0-2", "3-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69"],
+  SEX: ["Male", "Female"]
+};
 
 export default function Summary() {
-     const [selectedTab, setSelectedTab] = useState<'RACE' | 'AGE' | 'SEX'>('RACE');
-const INITIAL_AI_PREDICTIONS = {
-  RACE: { label: "South Asian", percentage: 50 },
-  AGE: { label: "50-59", percentage: 85 },
-  SEX: { label: "Male", percentage: 98 },
-};
-const handleReset = () => {
- 
-  setUserSelections(INITIAL_AI_PREDICTIONS);
   
- 
-};
 
-const [userSelections, setUserSelections] = useState({
-  RACE: { label: "South Asian", percentage: 50 },
-  AGE: { label: "50-59", percentage: 85 },
-  SEX: { label: "Male", percentage: 98 },
-});
 
-const ANALYSIS_DATA = {
-  RACE: {
-    options: [
-      { name: "South Asian", value: 50 },
-      { name: "White", value: 46 },
-      { name: "Black", value: 1 },
-      { name: "Southeast Asian", value: 0 },
-      { name: "Latino Hispanic", value: 0 },
-      { name: "East Asian", value: 0 },
-      { name: "Middle Eastern", value: 0 },
-    ]
-  },
-  AGE: {
-    options: [
-        { name: "0-2", value: 0 },
-        { name: "3-9", value: 23 },
-        { name: "10-19", value: 85 },
-      { name: "20-29", value: 85 },
-      { name: "30-39", value: 10 },
-      { name: "40-49", value: 5 },
-      { name: "50-59", value: 0 }, 
-      { name: "60-69", value: 0 },    
-    ]
-  },
-  SEX: {
-    options: [
-      { name: "Male", value: 98 },
-      { name: "Female", value: 2 },
-    ]
-  }
-};
-const handleOptionClick = (name: string, value: number) => {
-  setUserSelections((prev) => ({
-    ...prev,
-    [selectedTab]: { label: name, percentage: value }
-  }));
-};
+const { userSelections, updateSelection, resetSelections } = useAnalysisStore();
+
+const [selectedTab, setSelectedTab] = useState<'RACE' | 'AGE' | 'SEX'>('RACE');
 
 
 const activeSelection = userSelections[selectedTab];
-const currentOptions = ANALYSIS_DATA[selectedTab].options;
+
 const TABS = ['RACE', 'AGE', 'SEX'] as const;
-  const strokeDashoffset = 308.819 - (308.819 * activeSelection.percentage) / 100;
+const strokeDashoffset = 308.819 - (308.819 * activeSelection.percentage) / 100;
+
+
+ const currentOptions = useMemo(() => {
+    const labels = LABELS[selectedTab];
+    
+    return labels.map(label => {
+    
+      const isActive = label === activeSelection.label;
+      return {
+        name: label,
+        value: isActive ? activeSelection.percentage : 0
+      };
+    });
+  }, [selectedTab, activeSelection]);
+
+  const handleReset = () => {
+    resetSelections(); 
+  };
+
+  const handleOptionClick = (name: string, value: number) => {
+     updateSelection(selectedTab, name, value);
+  };
+useEffect(() => {
+  console.log("Current Store State:", userSelections);
+}, [userSelections]);
+
+
+
+
   return (
    <div>
       <div className='h-screen md:h-[90vh] flex flex-col md:mt-5'>
@@ -134,20 +121,21 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   </div>
 
   
-  {currentOptions.map((option, index) => {
+  {currentOptions?.map((option, index) => {
   const isSelected = option.name === activeSelection.label;
 
   return (
     <div
       key={index}
      
-      onClick={() => handleOptionClick(option.name, option.value)}
+      onClick={() => handleOptionClick(option.name, 100)}
       className={`flex items-center justify-between h-[48px] px-4 cursor-pointer transition-colors duration-200 ${
         isSelected 
           ? "bg-[#1A1B1C] text-white hover:bg-black" 
           : "text-black hover:bg-[#E1E1E2]"
       }`}
     >
+
       <div className="flex items-center gap-1">
         <img
           alt="radio button"
@@ -194,7 +182,7 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
   </button>
 
   <button onClick={() => console.log(userSelections)} className=" flex items-center focus:outline-none">
-    <span className=" hidden lg:block cursor-not-allowed hover:scale-[1.1] ease duration-300 text-sm font-semibold mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-zinc-800">
+    <span className=" hidden lg:block cursor-pointer hover:scale-[1.1] ease duration-300 text-sm font-semibold mr-5 px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter transition-colors group-hover:bg-zinc-800">
         CONFIRM
     </span>
   
@@ -207,7 +195,8 @@ const TABS = ['RACE', 'AGE', 'SEX'] as const;
         <span className="  hover:scale-[1.1] ease duration-300 transition-transform cursor-pointer  text-sm font-semibold  mr-5 px-4 py-2 bg-white text-black border border-black rounded-sm tracking-tighter hover:bg-gray-100">
             RESET
         </span></button>
-           <span className="cursor-not-allowed  hover:scale-[1.1] ease duration-300 text-sm font-semibold  px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
+
+           <span onClick={() => console.log(userSelections)} className="cursor-pointer  hover:scale-[1.1] ease duration-300 text-sm font-semibold  px-4 py-2 bg-black text-white border border-black rounded-sm tracking-tighter">
   CONFIRM
 </span>
 
